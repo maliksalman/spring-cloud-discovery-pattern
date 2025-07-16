@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: gateway
+  config:
+    import: "configserver:"
+  cloud:
+    config:
+      discovery:
+        enabled: true # Enable discovery for config server lookup
+        service-id: config-server # Default service ID of the Config Server
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.server:localhost}:5050/eureka
