@@ -6,7 +6,11 @@ my:
 
 logging:
   level:
-    reactor.netty: INFO
+    reactor.netty.http.client.HttpClient: DEBUG
+    reactor.netty.http.server.HttpServer: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+    org.springframework.cloud.gateway.filter.GatewayMetricsFilter: INFO
 
 spring:
   cloud:
