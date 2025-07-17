@@ -1,12 +1,13 @@
-package com.example.bbb;
+package com.example.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AaaApplication {
+public class GatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AaaApplication.class, args);
+		SpringApplication.run(GatewayApplication.class, args);
 	}
+
 }

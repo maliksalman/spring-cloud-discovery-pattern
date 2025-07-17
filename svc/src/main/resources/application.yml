@@ -1,6 +1,6 @@
 spring:
   application:
-    name: svc-aaa
+    name: must-override
   config:
     import: "configserver:"
   cloud:
