@@ -52,6 +52,7 @@ services:
     environment:
       - 'EUREKA_INSTANCE_HOSTNAME=gateway'
       - 'EUREKA_SERVER=discovery-server'
+      - 'HTTPBIN_URI=http://httpbin'
     command: "java -jar /app.jar"
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8080/actuator/health", "-f", "-s", "-o", "/dev/null" ]
@@ -141,3 +142,7 @@ services:
         condition: service_completed_successfully
       gateway:
         condition: service_healthy
+
+  httpbin:
+    container_name: httpbin
+    image: 'kennethreitz/httpbin'
