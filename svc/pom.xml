@@ -12,7 +12,7 @@
 	<groupId>com.example</groupId>
 	<artifactId>svc</artifactId>
 	<version>1.0</version>
-	<name>svc-aaa</name>
+	<name>svc</name>
 
 	<properties>
 		<java.version>21</java.version>
