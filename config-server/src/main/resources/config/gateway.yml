@@ -38,3 +38,11 @@ spring:
           filters:
             - StripPrefix=1
             - AddRequestHeader=my-header, values-aaa
+        - id: bbb
+          uri: lb://svc-bbb
+          predicates:
+            - Path=/bbb/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=my-header, values-bbb

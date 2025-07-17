@@ -1,20 +1,5 @@
 services:
 
-  config-server:
-    container_name: config-server
-    restart: on-failure
-    image: 'openjdk:21-jdk'
-    volumes:
-      - ./config-server/target/config-server-1.0.jar:/app.jar
-    environment:
-      - 'SERVER_PORT=80'
-    command: "java -jar /app.jar"
-    healthcheck:
-      test: [ "CMD", "curl", "http://localhost:9998/actuator/health", "-f", "-s", "-o", "/dev/null" ]
-      interval: 5s
-      timeout: 2s
-      retries: 12
-
   discovery-server:
     container_name: discovery-server
     restart: on-failure
@@ -34,6 +19,21 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
+
+  config-server:
+    container_name: config-server
+    restart: on-failure
+    image: 'openjdk:21-jdk'
+    volumes:
+      - ./config-server/target/config-server-1.0.jar:/app.jar
+    environment:
+      - 'SERVER_PORT=80'
+    command: "java -jar /app.jar"
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:9998/actuator/health", "-f", "-s", "-o", "/dev/null" ]
+      interval: 5s
+      timeout: 2s
+      retries: 12
 
   gateway:
     container_name: gateway
@@ -63,12 +63,13 @@ services:
     container_name: svc-aaa-1
     image: 'openjdk:21-jdk'
     volumes:
-      - ./svc-aaa/target/svc-aaa-1.0.jar:/app.jar
+      - ./svc/target/svc-1.0.jar:/app.jar
     environment:
       - 'SERVER_PORT=80'
       - 'SPRING_CLOUD_CONFIG_URI=http://config-server'
       - 'SPRING_PROFILES_ACTIVE=discovery-client'
       - 'EUREKA_SERVER=discovery-server'
+      - 'SPRING_APPLICATION_NAME=svc-aaa'
       - 'EUREKA_INSTANCE_HOSTNAME=svc-aaa-1'
       - 'INSTANCE_ID=1'
     command: "java -jar /app.jar"
@@ -82,13 +83,54 @@ services:
     container_name: svc-aaa-2
     image: 'openjdk:21-jdk'
     volumes:
-      - ./svc-aaa/target/svc-aaa-1.0.jar:/app.jar
+      - ./svc/target/svc-1.0.jar:/app.jar
     environment:
       - 'SERVER_PORT=80'
       - 'SPRING_CLOUD_CONFIG_URI=http://config-server'
       - 'SPRING_PROFILES_ACTIVE=discovery-client'
       - 'EUREKA_SERVER=discovery-server'
+      - 'SPRING_APPLICATION_NAME=svc-aaa'
       - 'EUREKA_INSTANCE_HOSTNAME=svc-aaa-2'
+      - 'INSTANCE_ID=2'
+    command: "java -jar /app.jar"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+
+  svc-bbb-1:
+    container_name: svc-bbb-1
+    image: 'openjdk:21-jdk'
+    volumes:
+      - ./svc/target/svc-1.0.jar:/app.jar
+    environment:
+      - 'SERVER_PORT=80'
+      - 'SPRING_CLOUD_CONFIG_URI=http://config-server'
+      - 'SPRING_PROFILES_ACTIVE=discovery-client'
+      - 'SPRING_APPLICATION_NAME=svc-bbb'
+      - 'EUREKA_INSTANCE_HOSTNAME=svc-bbb-1'
+      - 'EUREKA_SERVER=discovery-server'
+      - 'INSTANCE_ID=1'
+    command: "java -jar /app.jar"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+
+  svc-bbb-2:
+    container_name: svc-bbb-2
+    image: 'openjdk:21-jdk'
+    volumes:
+      - ./svc/target/svc-1.0.jar:/app.jar
+    environment:
+      - 'SERVER_PORT=80'
+      - 'SPRING_CLOUD_CONFIG_URI=http://config-server'
+      - 'SPRING_PROFILES_ACTIVE=discovery-client'
+      - 'SPRING_APPLICATION_NAME=svc-bbb'
+      - 'EUREKA_INSTANCE_HOSTNAME=svc-bbb-2'
+      - 'EUREKA_SERVER=discovery-server'
       - 'INSTANCE_ID=2'
     command: "java -jar /app.jar"
     depends_on:
