@@ -47,6 +47,7 @@ services:
       - 'SPRING_PROFILES_ACTIVE=discovery-client'
       - 'EUREKA_SERVER=discovery-server'
       - 'EUREKA_INSTANCE_HOSTNAME=gateway'
+      - 'HTTPBIN_URI=http://httpbin'
     command: "java -jar /app.jar"
     healthcheck:
       test: [ "CMD", "curl", "http://localhost/actuator/health", "-f", "-s", "-o", "/dev/null" ]
@@ -151,3 +152,7 @@ services:
         condition: service_healthy
       gateway:
         condition: service_healthy
+
+  httpbin:
+    container_name: httpbin
+    image: 'kennethreitz/httpbin'
