@@ -12,6 +12,9 @@ logging:
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
     org.springframework.cloud.gateway.filter.GatewayMetricsFilter: INFO
 
+httpbin:
+  uri:  https://httpbin.org
+
 spring:
   cloud:
     gateway:
@@ -21,7 +24,7 @@ spring:
         wiretap: true
       routes:
         - id: httpbin
-          uri: https://httpbin.org
+          uri: ${httpbin.uri}
           predicates:
             - Path=/httpbin/**
             - Method=GET,POST,DELETE
