@@ -1,4 +1,4 @@
-package com.example.bbb;
+package com.example.svc;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MyController {
+public class SvcController {
 
     private final String myVal;
     private final int instanceId;
 
-    public MyController(@Value("${my.val}") String myVal, @Value("${instance.id:1}")  int instanceId) {
+    public SvcController(@Value("${my.val}") String myVal, @Value("${instance.id:1}")  int instanceId) {
         this.myVal = myVal;
         this.instanceId = instanceId;
     }

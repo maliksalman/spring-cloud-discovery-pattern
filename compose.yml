@@ -68,8 +68,9 @@ services:
       config-server-registration-verifier:
         condition: service_completed_successfully
     volumes:
-      - ./svc-aaa/target/svc-aaa-1.0.jar:/app.jar
+      - ./svc/target/svc-1.0.jar:/app.jar
     environment:
+      - 'SPRING_APPLICATION_NAME=svc-aaa'
       - 'EUREKA_INSTANCE_HOSTNAME=svc-aaa-1'
       - 'EUREKA_SERVER=discovery-server'
       - 'INSTANCE_ID=1'
@@ -84,9 +85,44 @@ services:
       config-server-registration-verifier:
         condition: service_completed_successfully
     volumes:
-      - ./svc-aaa/target/svc-aaa-1.0.jar:/app.jar
+      - ./svc/target/svc-1.0.jar:/app.jar
     environment:
+      - 'SPRING_APPLICATION_NAME=svc-aaa'
       - 'EUREKA_INSTANCE_HOSTNAME=svc-aaa-2'
+      - 'EUREKA_SERVER=discovery-server'
+      - 'INSTANCE_ID=2'
+    command: "java -jar /app.jar"
+
+  svc-bbb-1:
+    container_name: svc-bbb-1
+    image: 'openjdk:21-jdk'
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server-registration-verifier:
+        condition: service_completed_successfully
+    volumes:
+      - ./svc/target/svc-1.0.jar:/app.jar
+    environment:
+      - 'SPRING_APPLICATION_NAME=svc-bbb'
+      - 'EUREKA_INSTANCE_HOSTNAME=svc-bbb-1'
+      - 'EUREKA_SERVER=discovery-server'
+      - 'INSTANCE_ID=1'
+    command: "java -jar /app.jar"
+
+  svc-bbb-2:
+    container_name: svc-bbb-2
+    image: 'openjdk:21-jdk'
+    depends_on:
+      discovery-server:
+        condition: service_healthy
+      config-server-registration-verifier:
+        condition: service_completed_successfully
+    volumes:
+      - ./svc/target/svc-1.0.jar:/app.jar
+    environment:
+      - 'SPRING_APPLICATION_NAME=svc-bbb'
+      - 'EUREKA_INSTANCE_HOSTNAME=svc-bbb-2'
       - 'EUREKA_SERVER=discovery-server'
       - 'INSTANCE_ID=2'
     command: "java -jar /app.jar"
