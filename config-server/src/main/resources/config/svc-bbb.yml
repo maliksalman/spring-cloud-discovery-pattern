@@ -2,4 +2,4 @@ my:
   val: beta
 
 server:
-  port: 7575
+  port: 6565

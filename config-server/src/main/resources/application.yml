@@ -7,7 +7,10 @@ spring:
 server:
   port: 9999
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.server:localhost}:5050/eureka
+management:
+  server:
+    port: 9998
+  endpoints:
+    web:
+      exposure:
+        include: health,env
