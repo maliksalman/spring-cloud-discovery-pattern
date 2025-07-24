@@ -1,0 +1,4 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://discovery-server-1/eureka,http://discovery-server-2/eureka,http://discovery-server-3/eureka
