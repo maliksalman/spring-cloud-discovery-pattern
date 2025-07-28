@@ -18,34 +18,36 @@ httpbin:
 spring:
   cloud:
     gateway:
-      httpserver:
-        wiretap: true
-      httpclient:
-        wiretap: true
-      routes:
-        - id: httpbin
-          uri: ${httpbin.uri}
-          predicates:
-            - Path=/httpbin/**
-            - Method=GET,POST,DELETE
-          filters:
-            - StripPrefix=1
-            - AddRequestHeader=header-1, values-1
-            - AddRequestHeader=header-2, values-2
-            - AddRequestHeader=header-3, values-3
-        - id: aaa
-          uri: lb://svc-aaa
-          predicates:
-            - Path=/aaa/**
-            - Method=GET
-          filters:
-            - StripPrefix=1
-            - AddRequestHeader=my-header, values-aaa
-        - id: bbb
-          uri: lb://svc-bbb
-          predicates:
-            - Path=/bbb/**
-            - Method=GET
-          filters:
-            - StripPrefix=1
-            - AddRequestHeader=my-header, values-bbb
+      server:
+        webflux:
+          httpserver:
+            wiretap: true
+          httpclient:
+            wiretap: true
+          routes:
+            - id: httpbin
+              uri: ${httpbin.uri}
+              predicates:
+                - Path=/httpbin/**
+                - Method=GET,POST,DELETE
+              filters:
+                - StripPrefix=1
+                - AddRequestHeader=header-1, values-1
+                - AddRequestHeader=header-2, values-2
+                - AddRequestHeader=header-3, values-3
+            - id: aaa
+              uri: lb://svc-aaa
+              predicates:
+                - Path=/aaa/**
+                - Method=GET
+              filters:
+                - StripPrefix=1
+                - AddRequestHeader=my-header, values-aaa
+            - id: bbb
+              uri: lb://svc-bbb
+              predicates:
+                - Path=/bbb/**
+                - Method=GET
+              filters:
+                - StripPrefix=1
+                - AddRequestHeader=my-header, values-bbb
